@@ -176,11 +176,10 @@ Example query:
       timestamp
     }
   }
-  orders(first: 5, orderBy: timestamp, orderDirection: desc) {
+  orders(first: 5, orderDirection: desc) {
     id
     account
     orderType
-    timestamp
   }
 }
 ```
