@@ -28,7 +28,7 @@ This guide explains how to set up and run a self-hosted Graph Node infrastructur
 
 ```bash
 # One command to do everything: start Docker + create + deploy
-yarn init
+yarn setup
 ```
 
 That's it! This will:
@@ -65,7 +65,7 @@ yarn status   # Check indexing progress
 ### Setup & Maintenance
 
 ```bash
-yarn init     # First-time setup (start + create + deploy)
+yarn setup    # First-time setup (start + create + deploy)
 yarn clean    # Delete all data (destructive - use with caution)
 yarn codegen  # Generate TypeScript types from schema
 yarn build    # Build subgraph without deploying
@@ -115,7 +115,7 @@ This automatically runs codegen, build, and deploy.
 ```bash
 # WARNING: Deletes all indexed data
 yarn clean
-yarn init
+yarn setup
 ```
 
 ## Monitoring

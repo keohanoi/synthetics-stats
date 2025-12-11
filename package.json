@@ -10,7 +10,7 @@
     "deploy": "yarn codegen && yarn build && graph deploy --node http://localhost:8020 --ipfs http://localhost:5001 gmx/synthetics-mantle-sepolia ./subgraph-mantle-sepolia.yaml --version-label local-$(date '+%Y%m%d%H%M%S')",
     "status": "curl -s http://localhost:8030/graphql -X POST -H 'Content-Type: application/json' -d '{\"query\":\"{indexingStatuses{subgraph synced health chains{network latestBlock{number} chainHeadBlock{number}}}}\"}' | python3 -m json.tool",
     "clean": "docker-compose down -v && echo '⚠️  All data deleted'",
-    "init": "yarn start && echo 'Waiting for services...' && sleep 15 && graph create --node http://localhost:8020 gmx/synthetics-mantle-sepolia && yarn deploy"
+    "setup": "yarn start && echo 'Waiting for services...' && sleep 15 && graph create --node http://localhost:8020 gmx/synthetics-mantle-sepolia && yarn deploy"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.3",
