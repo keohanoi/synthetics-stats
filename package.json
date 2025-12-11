@@ -2,14 +2,15 @@
   "name": "gmx",
   "license": "UNLICENSED",
   "scripts": {
-    "codegen": "graph codegen ./subgraph-arbitrum.yaml",
-    "build": "graph build ./subgraph-arbitrum.yaml",
-    "deploy-satsuma:fuji": "graph deploy synthetics-fuji-stats ./subgraph-fuji.yaml --version-label $(git rev-parse --abbrev-ref HEAD)-$(date '+%y%m%d%H%M%S')-$(git rev-parse --short HEAD) --node https://subgraphs.alchemy.com/api/subgraphs/deploy --ipfs https://ipfs.satsuma.xyz --deploy-key $(cat .satsuma_token)",
-    "deploy-satsuma:arbitrum": "graph deploy synthetics-arbitrum-stats ./subgraph-arbitrum.yaml --version-label $(git rev-parse --abbrev-ref HEAD)-$(date '+%y%m%d%H%M%S')-$(git rev-parse --short HEAD) --node https://subgraphs.alchemy.com/api/subgraphs/deploy --ipfs https://ipfs.satsuma.xyz --deploy-key $(cat .satsuma_token)",
-    "deploy-satsuma:avalanche": "graph deploy synthetics-avalanche-stats ./subgraph-avalanche.yaml --version-label $(git rev-parse --abbrev-ref HEAD)-$(date '+%y%m%d%H%M%S')-$(git rev-parse --short HEAD) --node https://subgraphs.alchemy.com/api/subgraphs/deploy --ipfs https://ipfs.satsuma.xyz --deploy-key $(cat .satsuma_token)",
-    "deploy-satsuma:botanix": "graph deploy synthetics-botanix-stats ./subgraph-botanix.yaml --version-label $(git rev-parse --abbrev-ref HEAD)-$(date '+%y%m%d%H%M%S')-$(git rev-parse --short HEAD) --node https://subgraphs.alchemy.com/api/subgraphs/deploy --ipfs https://ipfs.satsuma.xyz --deploy-key $(cat .satsuma_token)",
-    "deploy-satsuma:mantle-sepolia": "graph deploy synthetics-mantle-sepolia-stats ./subgraph-mantle-sepolia.yaml --version-label $(git rev-parse --abbrev-ref HEAD)-$(date '+%y%m%d%H%M%S')-$(git rev-parse --short HEAD) --node https://subgraphs.alchemy.com/api/subgraphs/deploy --ipfs https://ipfs.satsuma.xyz --deploy-key $(cat .satsuma_token)",
-    "deploy-satsuma:all": "yarn deploy-satsuma:fuji && yarn deploy-satsuma:arbitrum && yarn deploy-satsuma:avalanche"
+    "codegen": "graph codegen ./subgraph-mantle-sepolia.yaml",
+    "build": "graph build ./subgraph-mantle-sepolia.yaml",
+    "start": "docker-compose up -d",
+    "stop": "docker-compose down",
+    "logs": "docker-compose logs -f --tail=100 graph-node",
+    "deploy": "yarn codegen && yarn build && graph deploy --node http://localhost:8020 --ipfs http://localhost:5001 gmx/synthetics-mantle-sepolia ./subgraph-mantle-sepolia.yaml --version-label local-$(date '+%Y%m%d%H%M%S')",
+    "status": "curl -s http://localhost:8030/graphql -X POST -H 'Content-Type: application/json' -d '{\"query\":\"{indexingStatuses{subgraph synced health chains{network latestBlock{number} chainHeadBlock{number}}}}\"}' | python3 -m json.tool",
+    "clean": "docker-compose down -v && echo '⚠️  All data deleted'",
+    "init": "yarn start && echo 'Waiting for services...' && sleep 15 && graph create --node http://localhost:8020 gmx/synthetics-mantle-sepolia && yarn deploy"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.3",

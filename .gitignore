@@ -1,1 +1,14 @@
 node_modules
+
+# Docker environment
+.env
+.env.local
+.env.production
+
+# Docker volumes (if using local directories)
+docker/postgres/data/
+docker/ipfs/data/
+docker/graph/data/
+
+# Graph Node local data
+graph-data/
